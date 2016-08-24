@@ -1,0 +1,17 @@
+{
+  "name": "purethaicookhouse-specials",
+  "version": "1.0.0",
+  "description": "Pure Thai Cookhouse Specials",
+  "main": "run.js",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "node-schedule": "^1.1.1",
+    "sendgrid": "^4.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
