@@ -28,7 +28,14 @@ function email(toAddress, text) {
   var to_email = new helper.Email(toAddress);
   var subject = 'Pure Thai Cookhouse Specials!';
   var content = new helper.Content('text/html', text);
-  mail = new helper.Mail(from_email, subject, to_email, content);
+
+  var mail = new helper.Mail();
+  mail.setFrom(from_email);
+  var personalization = new helper.Personalization();
+  personalization.setSubject(subject);
+  personalization.addTo(to_email);
+  mail.addPersonalization(personalization);
+  mail.addContent(content);
 
   var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
   var request = sg.emptyRequest({
@@ -60,7 +67,13 @@ function run() {
           return;
         }
 
-        //email('test@example.com', element.html());
+        var to_address = process.env.TO_ADDRESS;
+        if (to_address === undefined) {
+          console.log('error: env variable TO_ADDRESS not found.');
+          return;
+        }
+
+        email(to_address, element.html());
 
         console.log('done');
       } else {
