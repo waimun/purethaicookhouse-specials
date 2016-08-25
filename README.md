@@ -13,4 +13,4 @@ Script is Node.js based and uses SendGrid for sending email.
 #### Notes
 * Step 1 & 2 are first time only, and requires [Node.js](https://nodejs.org) installed.
 * Step 3: Environment variable to send email; replace with actual API key from SendGrid account.
-* Step 4: Environment variable; replace with your email address to receive.
+* Step 4: Environment variable; replace with your email address to receive. Separate with comma if sending to multiple addresses (10 limit).
