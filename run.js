@@ -25,7 +25,7 @@ function download(callback) {
 
 function email(toAddress, text) {
   var from_email = new helper.Email('putsmail@putsmail.litmus.com');
-  var to_email = new helper.Email(toAddress);
+  var to_email = toAddress.split(',', 10);
   var subject = 'Pure Thai Cookhouse Specials!';
   var content = new helper.Content('text/html', text);
 
@@ -33,7 +33,9 @@ function email(toAddress, text) {
   mail.setFrom(from_email);
   var personalization = new helper.Personalization();
   personalization.setSubject(subject);
-  personalization.addTo(to_email);
+  for (var i in to_email) {
+    personalization.addTo(new helper.Email(to_email[i]));
+  }
   mail.addPersonalization(personalization);
   mail.addContent(content);
 
