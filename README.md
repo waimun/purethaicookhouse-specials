@@ -7,8 +7,10 @@ Script is Node.js based and uses SendGrid for sending email.
 1. Download source
 2. npm install
 3. export SENDGRID_API_KEY='YOUR_API_KEY'
-4. node run.js
+4. export TO_ADDRESS='test@example.com'
+5. node run.js
 
 #### Notes
 * Step 1 & 2 are first time only, and requires [Node.js](https://nodejs.org) installed.
 * Step 3: Environment variable to send email; replace with actual API key from SendGrid account.
+* Step 4: Environment variable; replace with your email address to receive. Separate with comma if sending to multiple addresses (10 limit).

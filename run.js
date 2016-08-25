@@ -25,10 +25,19 @@ function download(callback) {
 
 function email(toAddress, text) {
   var from_email = new helper.Email('putsmail@putsmail.litmus.com');
-  var to_email = new helper.Email(toAddress);
+  var to_email = toAddress.split(',', 10);
   var subject = 'Pure Thai Cookhouse Specials!';
   var content = new helper.Content('text/html', text);
-  mail = new helper.Mail(from_email, subject, to_email, content);
+
+  var mail = new helper.Mail();
+  mail.setFrom(from_email);
+  var personalization = new helper.Personalization();
+  personalization.setSubject(subject);
+  for (var i in to_email) {
+    personalization.addTo(new helper.Email(to_email[i]));
+  }
+  mail.addPersonalization(personalization);
+  mail.addContent(content);
 
   var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
   var request = sg.emptyRequest({
@@ -60,7 +69,13 @@ function run() {
           return;
         }
 
-        //email('test@example.com', element.html());
+        var to_address = process.env.TO_ADDRESS;
+        if (to_address === undefined) {
+          console.log('error: env variable TO_ADDRESS not found.');
+          return;
+        }
+
+        email(to_address, element.html());
 
         console.log('done');
       } else {
