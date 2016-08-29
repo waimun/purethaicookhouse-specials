@@ -24,7 +24,7 @@ function download(callback) {
 }
 
 function email(toAddress, text) {
-  var from_email = new helper.Email('putsmail@putsmail.litmus.com');
+  var from_email = new helper.Email('info@purethaicookhouse.com', 'Pure Thai Cookhouse');
   var to_email = toAddress.split(',', 10);
   var subject = 'Pure Thai Cookhouse Specials!';
   var content = new helper.Content('text/html', text);
