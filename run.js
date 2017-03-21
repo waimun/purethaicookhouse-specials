@@ -1,4 +1,4 @@
-var http = require('http');
+var https = require('https');
 var cheerio = require('cheerio');
 var helper = require('sendgrid').mail;
 var schedule = require('node-schedule');
@@ -6,7 +6,7 @@ var schedule = require('node-schedule');
 // Utility function that downloads a URL and invokes
 // callback with the data.
 function download(callback) {
-  http.get({
+  https.get({
     hostname: 'www.purethaicookhouse.com',
     path: '/specials',
     headers: {'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36'}
