@@ -1,6 +1,5 @@
 var https = require('https');
 var cheerio = require('cheerio');
-var helper = require('sendgrid').mail;
 var schedule = require('node-schedule');
 
 // Utility function that downloads a URL and invokes
@@ -24,32 +23,21 @@ function download(callback) {
 }
 
 function email(toAddress, text) {
-  var from_email = new helper.Email('info@purethaicookhouse.com', 'Pure Thai Cookhouse');
-  var to_email = toAddress.split(',', 10);
-  var subject = 'Pure Thai Cookhouse Specials!';
-  var content = new helper.Content('text/html', text);
-
-  var mail = new helper.Mail();
-  mail.setFrom(from_email);
-  var personalization = new helper.Personalization();
-  personalization.setSubject(subject);
-  for (var i in to_email) {
-    personalization.addTo(new helper.Email(to_email[i]));
-  }
-  mail.addPersonalization(personalization);
-  mail.addContent(content);
-
-  var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
-  var request = sg.emptyRequest({
-    method: 'POST',
-    path: '/v3/mail/send',
-    body: mail.toJSON()
-  });
-
-  sg.API(request, function(error, response) {
-    console.log(response.statusCode);
-    console.log(response.body);
-    console.log(response.headers);
+  const sgMail = require('@sendgrid/mail');
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  const msg = {
+    to: toAddress,
+    from: 'Pure Thai Cookhouse <info@purethaicookhouse.com>',
+    subject: 'Pure Thai Cookhouse Specials!',
+    html: text
+  };
+  sgMail.send(msg)
+  .then(() => {
+    console.log('success: sent email.');
+  })
+  .catch(error => {
+    const { message, code, response } = error;
+    console.log(message);
   });
 }
 
@@ -76,10 +64,8 @@ function run() {
         }
 
         email(to_address, element.html());
-
-        console.log('done');
       } else {
-        console.log('error');
+        console.log('error: cannot download page.');
       }
 
     });
